@@ -18,14 +18,18 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun StudentSignupScreen(
-    onSignupClick: () -> Unit,
-    onLoginClick: () -> Unit
-) {
+onSignupClick: (String, String, String) -> Unit,
+onLoginClick: () -> Unit
+)
+{
     var name by remember { mutableStateOf("") }
+    var rollNo by remember { mutableStateOf("") }
+    var year by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var hostel by remember { mutableStateOf("") }
     var roomNumber by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+
 
     Column(
         modifier = Modifier
@@ -114,7 +118,9 @@ fun StudentSignupScreen(
 
         // Signup Button
         Button(
-            onClick = { onSignupClick() },
+                onClick = {
+                    onSignupClick(name, rollNo, year)
+                },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
