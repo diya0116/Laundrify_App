@@ -3,6 +3,7 @@ package com.example.hostellaundrycode
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -116,15 +117,69 @@ fun StudentDashboardScreen(
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        Text(
-            text = "📦 Stages of Delivering Orders",
-            fontWeight = FontWeight.Bold,
-            fontSize = 14.sp
+        OrderStatusTracker(
+            currentStage = "Dried", // You can dynamically update this
+            onShowPasscodeClick = {
+                // TODO: show a dialog or toast with passcode
+            }
         )
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = "Order Processed → Order Checked → Washing → Drying → Packed → Collected",
-            fontSize = 13.sp
-        )
+
+    }
+}
+@Composable
+fun OrderStatusTracker(
+    currentStage: String,
+    onShowPasscodeClick: () -> Unit
+) {
+    val stages = listOf("Checked", "Washed", "Dried", "Packed", "Collected")
+    val currentIndex = stages.indexOf(currentStage)
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color(0xFFE8EAF6), RoundedCornerShape(12.dp))
+            .padding(16.dp)
+    ) {
+        Text("Active Orders", fontWeight = FontWeight.Bold)
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            stages.forEachIndexed { index, stage ->
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Box(
+                        modifier = Modifier
+                            .size(12.dp)
+                            .background(
+                                color = if (index <= currentIndex) Color.Black else Color.Gray,
+                                shape = CircleShape
+                            )
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = stage,
+                        fontSize = 10.sp,
+                        fontWeight = if (index == currentIndex) FontWeight.Bold else FontWeight.Normal
+                    )
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+        Text("Estimated Pickup: 5 July 2025", fontSize = 12.sp)
+
+        if (currentIndex >= stages.indexOf("Packed")) {
+            Spacer(modifier = Modifier.height(12.dp))
+            Button(
+                onClick = onShowPasscodeClick,
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF003366)),
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            ) {
+                Text("Show Passcode (for pickup)", color = Color.White)
+            }
+        }
     }
 }

@@ -54,7 +54,7 @@ class MainActivity : ComponentActivity() {
 
                 composable("adminLogin") {
                     AdminLoginScreen(
-                        onLoginClick = { /* handle admin login */ },
+                        onLoginClick = {navController.navigate("admindashboard")},
                         onRequestAccessClick = { /* handle request access */ }
                     )
                 }
@@ -62,7 +62,7 @@ class MainActivity : ComponentActivity() {
                 composable("studentSignup") {
                     StudentSignupScreen(
                         onSignupClick = { name, rollNo, year ->
-                            navController.navigate("dashboard/$name/$rollNo/$year")
+                            navController.navigate("studentdashboard")
                         },
                         onLoginClick = {
                             navController.navigate("studentLogin")
@@ -84,10 +84,12 @@ class MainActivity : ComponentActivity() {
                    AddLaundryRequestScreen (
                        onConfirmClick={}
                    )
-
                    }
+                composable("admindashboard") {
+                    AdminDashboard (
 
-
+                    )
+                }
 
 
                 }
