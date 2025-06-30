@@ -54,7 +54,7 @@ class MainActivity : ComponentActivity() {
 
                 composable("adminLogin") {
                     AdminLoginScreen(
-                        onLoginClick = { navController.navigate("admindashboard") },
+                        onLoginClick = {navController.navigate("admindashboard")},
                         onRequestAccessClick = { /* handle request access */ }
                     )
                 }
@@ -75,55 +75,25 @@ class MainActivity : ComponentActivity() {
                         name = "Test User",
                         rollNo = "000000",
                         hostelInput = "Year 1",
-                        onNewRequestClick = { navController.navigate("laundryrequest") },
+                        onNewRequestClick = {  navController.navigate("laundryrequest")},
                         onHistoryClick = { /* ... */ },
                         onFeedbackClick = { /* ... */ }
                     )
                 }
                 composable("laundryrequest") {
-                    AddLaundryRequestScreen(
-                        onConfirmClick = {}
-                    )
-                }
+                   AddLaundryRequestScreen (
+                       onConfirmClick={}
+                   )
+                   }
                 composable("admindashboard") {
-                    AdminDashboardScreen(
-                        "Admin",
-                        "12",
-                        onConfirmPickup = {  },
-                        onUpdateStatusClick = { navController.navigate("updatescreen") },
-                        onNewBatchClick = { navController.navigate("newbatch") },
-                        onBatchStatusClick = {},
-                        onreceivedordersclick = { navController.navigate("receivedorders") },
-                        oninprogressordersclick = { navController.navigate("inprogressorders") },
-                        onreadyforpickup = {navController.navigate("readyforpickup")},
-                        onpendingrequests = {navController.navigate("pendingrequest")}
+                    AdminDashboard (
 
                     )
                 }
 
 
-                composable("receivedorders") {
-                    OrdersReceivedScreen()
                 }
-                composable("inprogressorders") {
-                    InProgressOrdersScreen()
-                }
-                composable("newbatch") {
-                    InitializeNewBatchScreen(
-                        onBatchInitialized = { name, time ->
-                            println("Batch Name:$name Created At: $time")
-                        })
-                }
-                composable("updatescreen") {
-                    UpdateScreen()
-                }
-                composable("readyforpickup") {
-                    ReadyForPickupScreen()
-                }
-                composable("pendingrequest") {
-                    FeedbackRequestsScreen()
-
             }
         }
-    }}}
+    }
 

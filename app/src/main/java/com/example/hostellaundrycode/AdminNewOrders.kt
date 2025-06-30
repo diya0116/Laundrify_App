@@ -49,11 +49,11 @@ fun OrdersReceivedScreen() {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-//            Image(
-//                painter = painterResource(id = R.drawable.laundry_logo),
-//                contentDescription = "Logo",
-//                modifier = Modifier.height(40.dp)
-//            )
+            Image(
+                painter = painterResource(id = R.drawable.laundrifytext),
+                contentDescription = "Laundrify Logo",
+                modifier = Modifier.height(60.dp)
+            )
             Icon(
                 imageVector = Icons.Default.Menu,
                 contentDescription = "Menu",
