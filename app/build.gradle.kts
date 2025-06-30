@@ -52,11 +52,11 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
-    // ✅ Navigation dependency
+    // ✅ Correct Navigation dependency
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("androidx.compose.material:material-icons-extended")
-    implementation(libs.androidx.navigation.runtime.android)
-    implementation(libs.androidx.navigation.compose.jvmstubs)
+
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

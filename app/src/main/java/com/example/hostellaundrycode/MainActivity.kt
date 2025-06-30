@@ -28,6 +28,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
 
+
             NavHost(navController = navController, startDestination = "selector") {
 
                 composable("selector") {
@@ -54,8 +55,8 @@ class MainActivity : ComponentActivity() {
 
                 composable("adminLogin") {
                     AdminLoginScreen(
-                        onLoginClick = {navController.navigate("admindashboard")},
-                        onRequestAccessClick = { /* handle request access */ }
+                        onLoginClick = { navController.navigate("admindashboard") },
+                        onRequestAccessClick = { navController.navigate("requestaccess") }
                     )
                 }
 
@@ -75,25 +76,85 @@ class MainActivity : ComponentActivity() {
                         name = "Test User",
                         rollNo = "000000",
                         hostelInput = "Year 1",
-                        onNewRequestClick = {  navController.navigate("laundryrequest")},
-                        onHistoryClick = { /* ... */ },
-                        onFeedbackClick = { /* ... */ }
+                        onNewRequestClick = { navController.navigate("laundryrequest") },
+                        onHistoryClick = { navController.navigate("orderhistory") },
+                        onFeedbackClick = { navController.navigate("feedbackform") }
                     )
                 }
                 composable("laundryrequest") {
-                   AddLaundryRequestScreen (
-                       onConfirmClick={}
-                   )
-                   }
+                    AddLaundryRequestScreen(
+                        onConfirmClick = {}
+                    )
+                }
                 composable("admindashboard") {
-                    AdminDashboard (
+                    AdminDashboardScreen(
+                        "Admin",
+                        "12",
+                        onConfirmPickup = {  },
+                        onUpdateStatusClick = { navController.navigate("updatescreen") },
+                        onNewBatchClick = { navController.navigate("newbatch") },
+                        onBatchStatusClick = {},
+                        onreceivedordersclick = { navController.navigate("receivedorders") },
+                        oninprogressordersclick = { navController.navigate("inprogressorders") },
+                        onreadyforpickup = {navController.navigate("readyforpickup")},
+                        onpendingrequests = {navController.navigate("pendingrequest")}
 
                     )
                 }
 
 
+                composable("receivedorders") {
+                    OrdersReceivedScreen()
                 }
+                composable("inprogressorders") {
+                    InProgressOrdersScreen()
+                }
+                composable(route = "newbatch") {
+                    InitializeNewBatchScreen(
+                        onBatchInitialized = { name, time ->
+                            println("Batch Name: $name Created At: $time")
+                        },
+                        onBack = {navController.navigate("admindashboard")}
+                    )
+                }
+
+
+                composable("updatescreen") {
+                    UpdateScreen(onBack = {navController.navigate("admindashboard")})
+                }
+                composable("readyforpickup") {
+                    ReadyForPickupScreen()
+                }
+                composable("pendingrequest") {
+                    FeedbackRequestsScreen()
+
             }
-        }
-    }
+                composable("requestaccess") {
+                    AdminRequestAccessScreen(
+                        onConfirmClick = { name, empId, phone ->
+                            // Handle request submission logic here
+                            println("Request submitted: $name, $empId, $phone")
+                        },
+                        onLoginClick = {
+                            navController.navigate("adminLogin")
+                        }
+                    )
+                }
+                composable ("orderhistory") {
+                    OrderHistoryScreen()
+                }
+                composable("feedbackform") {
+                    FeedbackFormScreen(
+                        studentName = "Test User",  // You can pass real data from ViewModel or arguments
+                        hostel = "Block A",
+                        room = "101",
+                        onSubmit = { feedback ->
+                            println("Feedback submitted: $feedback")
+
+                        }
+                    )
+                }
+
+
+            }}}}
 

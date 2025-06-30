@@ -47,7 +47,7 @@ fun OrderHistoryScreen() {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Image(
-                painter = painterResource(id = R.drawable.Laundrifytext),
+                painter = painterResource(id = R.drawable.laundrifytext),
                 contentDescription = "Logo",
                 modifier = Modifier.height(40.dp)
             )

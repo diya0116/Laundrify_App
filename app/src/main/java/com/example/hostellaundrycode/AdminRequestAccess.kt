@@ -23,7 +23,22 @@ fun AdminRequestAccessScreen(
     var name by remember { mutableStateOf("") }
     var empId by remember { mutableStateOf("") }
     var phone by remember { mutableStateOf("") }
-
+var showDialog by remember { mutableStateOf(false) }
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = { Text("Access Granted!") },
+            text = { Text("Please login to continue.") },
+            confirmButton = {
+                TextButton(onClick = {
+                    showDialog = false
+                    onLoginClick()  // Navigate to login screen
+                }) {
+                    Text("OK")
+                }
+            }
+        )
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -89,7 +104,10 @@ fun AdminRequestAccessScreen(
 
         // Submit Button
         Button(
-            onClick = { onConfirmClick(name, empId, phone) },
+            onClick = {
+                onConfirmClick(name, empId, phone)
+                showDialog = true
+            },
             enabled = name.isNotBlank() && empId.isNotBlank() && phone.isNotBlank(),
             modifier = Modifier
                 .fillMaxWidth()

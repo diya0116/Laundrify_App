@@ -11,11 +11,12 @@ import androidx.compose.ui.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.*
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.*
 
-
 @Composable
+
 fun FeedbackFormScreen(
     studentName: String,
     hostel: String,
@@ -23,6 +24,20 @@ fun FeedbackFormScreen(
     onSubmit: (String) -> Unit = {}
 ) {
     var feedbackText by remember { mutableStateOf("") }
+    var showDialog by remember { mutableStateOf(false) }
+
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = { Text("Submitted") },
+            text = { Text("Your feedback has been submitted.") },
+            confirmButton = {
+                TextButton(onClick = { showDialog = false }) {
+                    Text("OK")
+                }
+            }
+        )
+    }
 
     Column(
         modifier = Modifier
@@ -35,7 +50,7 @@ fun FeedbackFormScreen(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Image(
-                painter = painterResource(id = R.drawable.Laundrifytext),
+                painter = painterResource(id = R.drawable.laundrifytext),
                 contentDescription = "Logo",
                 modifier = Modifier.height(40.dp)
             )
@@ -60,7 +75,6 @@ fun FeedbackFormScreen(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Feedback input box
         OutlinedTextField(
             value = feedbackText,
             onValueChange = { feedbackText = it },
@@ -72,7 +86,6 @@ fun FeedbackFormScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Student info footer
         Text(
             buildAnnotatedString {
                 withStyle(style = SpanStyle(fontStyle = FontStyle.Italic, fontWeight = FontWeight.SemiBold)) {
@@ -87,7 +100,11 @@ fun FeedbackFormScreen(
         Spacer(modifier = Modifier.height(24.dp))
 
         Button(
-            onClick = { onSubmit(feedbackText) },
+            onClick = {
+                onSubmit(feedbackText)
+                showDialog = true
+                feedbackText = ""  // Optional: clear the field after submission
+            },
             enabled = feedbackText.isNotBlank(),
             modifier = Modifier.fillMaxWidth()
         ) {

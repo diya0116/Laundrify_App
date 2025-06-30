@@ -1,5 +1,7 @@
 package com.example.hostellaundrycode
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,7 +14,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.*
 import androidx.compose.ui.window.Dialog
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
+
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+
 
 @Composable
 fun AddLaundryRequestScreen(
@@ -23,19 +29,38 @@ fun AddLaundryRequestScreen(
         "Full Pants (Jeans/Lowers)", "Jackets", "Sweater", "Hoodies", "Extras"
     )
 
-    val requestTypes = listOf("Normal", "Urgent")
+    val requestTypes = listOf("Normal", "Delicate", "Dry Clean")
     var selectedRequest by remember { mutableStateOf(requestTypes[0]) }
 
-    val slots = listOf("9:00 - 10:00 AM", "10:00 - 11:00 AM", "4:00 - 5:00 PM")
+    val slots = remember { generateSimpleTimeSlots() }
+
     var selectedSlot by remember { mutableStateOf("") }
 
     val itemCounts = remember { mutableStateMapOf<String, Int>() }
     itemTypes.forEach { itemCounts.putIfAbsent(it, 0) }
 
-//    these were giving error so commented
+    val totalClothes by remember {
+        derivedStateOf { itemCounts.values.sum() }
+    }
 
-//    val deliveryDate = LocalDate.of(2025, 7, 5)
-//    val formattedDate = deliveryDate.format(DateTimeFormatter.ofPattern("dd MMMM yyyy"))
+
+    var showDialog by remember { mutableStateOf(false) }
+
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = { Text("Request Confirmed") },
+            text = { Text("Your laundry request has been submitted.") },
+            confirmButton = {
+                TextButton(onClick = {
+                    showDialog = false
+                    onConfirmClick()
+                }) {
+                    Text("OK")
+                }
+            }
+        )
+    }
 
     Column(modifier = Modifier
         .fillMaxSize()
@@ -77,9 +102,15 @@ fun AddLaundryRequestScreen(
 
                             Text("${itemCounts[type] ?: 0}", modifier = Modifier.padding(horizontal = 8.dp))
 
-                            Button(onClick = {
-                                itemCounts[type] = itemCounts[type]!! + 1
-                            }, contentPadding = PaddingValues(0.dp), modifier = Modifier.size(32.dp)) {
+                            Button(
+                                onClick = {
+                                    if (itemCounts.values.sum() < 10) {
+                                        itemCounts[type] = itemCounts[type]!! + 1
+                                    }
+                                },
+                                contentPadding = PaddingValues(0.dp),
+                                modifier = Modifier.size(32.dp)
+                            ) {
                                 Text("+")
                             }
                         }
@@ -90,7 +121,7 @@ fun AddLaundryRequestScreen(
 
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "***Enter clothes carefully. Your laundry can be rejected and will be received in next slot unwashed.",
+            text = "Max 10 items. Requests exceeding this will be rejected.",
             fontSize = 12.sp,
             color = Color.Gray
         )
@@ -104,15 +135,13 @@ fun AddLaundryRequestScreen(
             onSelect = { selectedSlot = it }
         )
 
-        Spacer(modifier = Modifier.height(20.dp))
-
-//        Text("Estimated Delivery Date: $formattedDate", fontSize = 14.sp)
-//        this has func formatted date jo mene comment out kiya tha  to yeh bhi error fenk rha tha
-
         Spacer(modifier = Modifier.height(24.dp))
 
         Button(
-            onClick = onConfirmClick,
+            onClick = {
+                showDialog = true
+            },
+            enabled = totalClothes in 1..10 && selectedSlot.isNotEmpty(),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
@@ -123,6 +152,8 @@ fun AddLaundryRequestScreen(
     }
 }
 
+// Reusable dropdown menu
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DropdownMenuBox(
     options: List<String>,
@@ -131,18 +162,24 @@ fun DropdownMenuBox(
 ) {
     var expanded by remember { mutableStateOf(false) }
 
-    Box {
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded }
+    ) {
         OutlinedTextField(
             value = selected,
             onValueChange = {},
             readOnly = true,
+            label = { Text("Select") },
+            trailingIcon = {
+                ExposedDropdownMenuDefaults.TrailingIcon(expanded)
+            },
             modifier = Modifier
+                .menuAnchor() // ✅ Needed for anchoring
                 .fillMaxWidth()
-                .clickable { expanded = true },
-            label = { Text("Select") }
         )
 
-        DropdownMenu(
+        ExposedDropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false }
         ) {
@@ -159,3 +196,32 @@ fun DropdownMenuBox(
     }
 }
 
+
+
+
+fun generateSimpleTimeSlots(): List<String> {
+    val slots = mutableListOf<String>()
+
+    val morningStart = 10 * 60
+    val morningEnd = 14 * 60
+    val eveningStart = 16 * 60
+    val eveningEnd = 18 * 60
+
+    for (time in morningStart until morningEnd step 15) {
+        val hour = time / 60
+        val minute = time % 60
+        val ampm = if (hour < 12) "AM" else "PM"
+        val displayHour = if (hour == 0 || hour == 12) 12 else hour % 12
+        slots.add(String.format("%d:%02d %s", displayHour, minute, ampm))
+    }
+
+    for (time in eveningStart until eveningEnd step 15) {
+        val hour = time / 60
+        val minute = time % 60
+        val ampm = if (hour < 12) "AM" else "PM"
+        val displayHour = if (hour == 0 || hour == 12) 12 else hour % 12
+        slots.add(String.format("%d:%02d %s", displayHour, minute, ampm))
+    }
+
+    return slots
+}
