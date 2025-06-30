@@ -27,8 +27,8 @@ var showDialog by remember { mutableStateOf(false) }
     if (showDialog) {
         AlertDialog(
             onDismissRequest = { showDialog = false },
-            title = { Text("Access Granted!") },
-            text = { Text("Please login to continue.") },
+            title = { Text("Access Request has been received .") },
+
             confirmButton = {
                 TextButton(onClick = {
                     showDialog = false
