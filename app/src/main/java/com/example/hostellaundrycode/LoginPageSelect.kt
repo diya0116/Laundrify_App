@@ -32,14 +32,14 @@ fun LoginSelectorScreen(
     ) {
         Spacer(modifier = Modifier.height(32.dp))
 
-        // Logo (Replace with actual logo resource later)
-//        Image(
-//            painter = painterResource(id = R.drawable.laundry_logo), // Put your logo in drawable
-//            contentDescription = "Laundrify Logo",
-//            modifier = Modifier
-//                .height(100.dp)
-//                .padding(8.dp)
-//        )
+
+        Image(
+            painter = painterResource(id = R.drawable.laundrifylogo), // Put your logo in drawable
+            contentDescription = "Laundrify Logo",
+            modifier = Modifier
+                .height(100.dp)
+                .padding(8.dp)
+        )
 
         Text(
             text = "Laundrify",

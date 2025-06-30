@@ -7,12 +7,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-  import androidx.navigation.NavController
-  import androidx.navigation.NavType
-  import androidx.navigation.compose.NavHost
-  import androidx.navigation.compose.composable
-  import androidx.navigation.compose.rememberNavController
-  import androidx.navigation.navArgument
+import androidx.navigation.NavController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.hostellaundrycode.AdminLoginScreen
 import com.example.hostellaundrycode.LoginSelectorScreen
 import com.example.hostellaundrycode.StudentLoginScreen
@@ -53,7 +53,7 @@ class MainActivity : ComponentActivity() {
 
                 composable("adminLogin") {
                     AdminLoginScreen(
-                        onLoginClick = {navController.navigate("admindashboard")},
+                        onLoginClick = { navController.navigate("admindashboard") },
                         onRequestAccessClick = { /* handle request access */ }
                     )
                 }
@@ -74,45 +74,56 @@ class MainActivity : ComponentActivity() {
                         name = "Test User",
                         rollNo = "000000",
                         hostelInput = "Year 1",
-                        onNewRequestClick = {  navController.navigate("laundryrequest")},
+                        onNewRequestClick = { navController.navigate("laundryrequest") },
                         onHistoryClick = { /* ... */ },
                         onFeedbackClick = { /* ... */ }
                     )
                 }
                 composable("laundryrequest") {
-                    AddLaundryRequestScreen (
-                        onConfirmClick={}
+                    AddLaundryRequestScreen(
+                        onConfirmClick = {}
                     )
                 }
                 composable("admindashboard") {
                     AdminDashboardScreen(
                         "Admin",
                         "12",
-                        onConfirmPickup = {},
-                        onUpdateStatusClick = {navController.navigate("updatescreen")},
-                        onNewBatchClick = {navController.navigate("newbatch")},
+                        onConfirmPickup = {  },
+                        onUpdateStatusClick = { navController.navigate("updatescreen") },
+                        onNewBatchClick = { navController.navigate("newbatch") },
                         onBatchStatusClick = {},
-                        onreceivedordersclick = {navController.navigate("receivedorders")},
-                        oninprogressordersclick = {navController.navigate("inprogressorders")}
-                    )}
+                        onreceivedordersclick = { navController.navigate("receivedorders") },
+                        oninprogressordersclick = { navController.navigate("inprogressorders") },
+                        onreadyforpickup = {navController.navigate("readyforpickup")},
+                        onpendingrequests = {navController.navigate("pendingrequest")}
+
+                    )
+                }
 
 
-                composable("receivedorders"){
+                composable("receivedorders") {
                     OrdersReceivedScreen()
                 }
-                composable("inprogressorders"){
+                composable("inprogressorders") {
                     InProgressOrdersScreen()
                 }
-                composable("newbatch"){
+                composable("newbatch") {
                     InitializeNewBatchScreen(
                         onBatchInitialized = { name, time ->
-                            println("Batch Name:$name Created At: $time")})}
-                composable("updatescreen"){
+                            println("Batch Name:$name Created At: $time")
+                        })
+                }
+                composable("updatescreen") {
                     UpdateScreen()
                 }
+                composable("readyforpickup") {
+                    ReadyForPickupScreen()
+                }
+                composable("pendingrequest") {
+                    FeedbackRequestsScreen()
+
+                }
             }
-
-
         }
     }
 }
