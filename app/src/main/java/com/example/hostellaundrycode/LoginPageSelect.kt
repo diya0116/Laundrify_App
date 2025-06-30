@@ -32,14 +32,14 @@ fun LoginSelectorScreen(
     ) {
         Spacer(modifier = Modifier.height(32.dp))
 
-        // Logo (Replace with actual logo resource later)
-//        Image(
-//            painter = painterResource(id = R.drawable.laundry_logo), // Put your logo in drawable
-//            contentDescription = "Laundrify Logo",
-//            modifier = Modifier
-//                .height(100.dp)
-//                .padding(8.dp)
-//        )
+
+        Image(
+            painter = painterResource(id = R.drawable.laundrifylogo), // Put your logo in drawable
+            contentDescription = "Laundrify Logo",
+            modifier = Modifier
+                .height(100.dp)
+                .padding(8.dp)
+        )
 
         Text(
             text = "Laundrify",
@@ -87,13 +87,19 @@ fun LoginSelectorScreen(
                 modifier = Modifier.padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Icon(Icons.Default.Person, contentDescription = null, tint = Color.Black, modifier = Modifier.size(32.dp))
+                Icon(Icons.Default.Person,
+                    contentDescription = null,
+                    tint = Color.Black,
+                    modifier = Modifier.size(32.dp))
+
                 Text("Admin", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+
                 Text(
                     text = "View laundry requests and manage clothes efficiently",
                     fontSize = 14.sp,
                     modifier = Modifier.padding(vertical = 8.dp)
                 )
+
                 Button(onClick = onAdminClick) {
                     Text("Admin Access")
                 }

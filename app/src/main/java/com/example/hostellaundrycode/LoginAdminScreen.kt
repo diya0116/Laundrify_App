@@ -32,11 +32,11 @@ fun AdminLoginScreen(
     ) {
         Spacer(modifier = Modifier.height(24.dp))
 
-//        Image(
-//            painter = painterResource(id = R.drawable.laundry_logo),
-//            contentDescription = "Laundrify Logo",
-//            modifier = Modifier.height(60.dp)
-//        )
+        Image(
+            painter = painterResource(id = R.drawable.laundrifytext),
+            contentDescription = "Laundrify Logo",
+            modifier = Modifier.height(60.dp)
+        )
 
         Spacer(modifier = Modifier.height(16.dp))
 
