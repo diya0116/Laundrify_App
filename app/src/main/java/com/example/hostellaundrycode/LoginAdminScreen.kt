@@ -49,7 +49,16 @@ fun AdminLoginScreen(
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        Text("Employee Id", fontWeight = FontWeight.SemiBold)
+        
+
+        Box(modifier = Modifier.fillMaxWidth()) {
+            Text(
+                text = "Employee Id",
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.align(Alignment.CenterStart)
+            )
+        }
+
         TextField(
             value = empId,
             onValueChange = { empId = it },
@@ -60,7 +69,14 @@ fun AdminLoginScreen(
                 .padding(vertical = 8.dp)
         )
 
-        Text("Password", fontWeight = FontWeight.SemiBold)
+        Box(modifier = Modifier.fillMaxWidth()) {
+            Text(
+                text = "Password",
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.align(Alignment.CenterStart)
+            )
+        }
+
         TextField(
             value = password,
             onValueChange = { password = it },
