@@ -1,5 +1,6 @@
 package com.example.hostellaundrycode
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,11 +36,11 @@ fun AdminDashboardScreen(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-//            Image(
-//                painter = painterResource(id = R.drawable.laundry_logo),
-//                contentDescription = "Logo",
-//                modifier = Modifier.height(40.dp)
-//            )
+            Image(
+                painter = painterResource(id = R.drawable.laundrifytext),
+                contentDescription = "Laundrify Logo",
+                modifier = Modifier.height(60.dp)
+            )
             Icon(
                 imageVector = Icons.Default.Menu,
                 contentDescription = "Menu",

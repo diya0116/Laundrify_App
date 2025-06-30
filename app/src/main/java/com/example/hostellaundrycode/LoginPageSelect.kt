@@ -87,13 +87,19 @@ fun LoginSelectorScreen(
                 modifier = Modifier.padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Icon(Icons.Default.Person, contentDescription = null, tint = Color.Black, modifier = Modifier.size(32.dp))
+                Icon(Icons.Default.Person,
+                    contentDescription = null,
+                    tint = Color.Black,
+                    modifier = Modifier.size(32.dp))
+
                 Text("Admin", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+
                 Text(
                     text = "View laundry requests and manage clothes efficiently",
                     fontSize = 14.sp,
                     modifier = Modifier.padding(vertical = 8.dp)
                 )
+
                 Button(onClick = onAdminClick) {
                     Text("Admin Access")
                 }

@@ -1,4 +1,3 @@
-
 package com.example.hostellaundrycode
 
 import android.os.Bundle
@@ -8,12 +7,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.navigation.NavController
-import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
+  import androidx.navigation.NavController
+  import androidx.navigation.NavType
+  import androidx.navigation.compose.NavHost
+  import androidx.navigation.compose.composable
+  import androidx.navigation.compose.rememberNavController
+  import androidx.navigation.navArgument
 import com.example.hostellaundrycode.AdminLoginScreen
 import com.example.hostellaundrycode.LoginSelectorScreen
 import com.example.hostellaundrycode.StudentLoginScreen
@@ -81,19 +80,39 @@ class MainActivity : ComponentActivity() {
                     )
                 }
                 composable("laundryrequest") {
-                   AddLaundryRequestScreen (
-                       onConfirmClick={}
-                   )
-                   }
-                composable("admindashboard") {
-                    AdminDashboard (
-
+                    AddLaundryRequestScreen (
+                        onConfirmClick={}
                     )
                 }
+                composable("admindashboard") {
+                    AdminDashboardScreen(
+                        "Admin",
+                        "12",
+                        onConfirmPickup = {},
+                        onUpdateStatusClick = {navController.navigate("updatescreen")},
+                        onNewBatchClick = {navController.navigate("newbatch")},
+                        onBatchStatusClick = {},
+                        onreceivedordersclick = {navController.navigate("receivedorders")},
+                        oninprogressordersclick = {navController.navigate("inprogressorders")}
+                    )}
 
 
+                composable("receivedorders"){
+                    OrdersReceivedScreen()
+                }
+                composable("inprogressorders"){
+                    InProgressOrdersScreen()
+                }
+                composable("newbatch"){
+                    InitializeNewBatchScreen(
+                        onBatchInitialized = { name, time ->
+                            println("Batch Name:$name Created At: $time")})}
+                composable("updatescreen"){
+                    UpdateScreen()
                 }
             }
+
+
         }
     }
-
+}
