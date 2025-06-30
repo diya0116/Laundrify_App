@@ -34,18 +34,11 @@ fun LoginSelectorScreen(
 
 
         Image(
-            painter = painterResource(id = R.drawable.laundrifylogo), // Put your logo in drawable
+            painter = painterResource(id = R.drawable.laundrifylogo),
             contentDescription = "Laundrify Logo",
             modifier = Modifier
                 .height(100.dp)
                 .padding(8.dp)
-        )
-
-        Text(
-            text = "Laundrify",
-            fontSize = 32.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color(0xFF1565C0)
         )
 
         Spacer(modifier = Modifier.height(40.dp))
@@ -69,7 +62,13 @@ fun LoginSelectorScreen(
                     fontSize = 14.sp,
                     modifier = Modifier.padding(vertical = 8.dp)
                 )
-                Button(onClick = onStudentClick) {
+                Button(
+                    onClick = {onStudentClick},
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF1565C0),    
+                        contentColor = Color.White
+                    )
+                ) {
                     Text("Student Login")
                 }
             }
@@ -100,7 +99,13 @@ fun LoginSelectorScreen(
                     modifier = Modifier.padding(vertical = 8.dp)
                 )
 
-                Button(onClick = onAdminClick) {
+                Button(
+                    onClick = {onAdminClick},
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF1565C0),    
+                        contentColor = Color.White
+                    )
+                ) {
                     Text("Admin Access")
                 }
             }
