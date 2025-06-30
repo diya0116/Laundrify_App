@@ -21,10 +21,27 @@ fun AdminDashboardScreen(
     onConfirmPickup: () -> Unit,
     onUpdateStatusClick: () -> Unit,
     onNewBatchClick: () -> Unit,
-    onBatchStatusClick: () -> Unit
+    onBatchStatusClick: () -> Unit,
+    onreceivedordersclick:()->Unit,
+    oninprogressordersclick:()-> Unit,
+    onpendingrequests:()->Unit,
+    onreadyforpickup:()-> Unit
 ) {
     var orderId by remember { mutableStateOf("") }
     var passcode by remember { mutableStateOf("") }
+    var showDialog by remember { mutableStateOf(false) }
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = { Text("Pickup Confirmed") },
+            text = { Text("Notification sent to students.") },
+            confirmButton = {
+                TextButton(onClick = { showDialog = false }) {
+                    Text("OK")
+                }
+            }
+        )
+    }
 
     Column(
         modifier = Modifier
@@ -92,24 +109,41 @@ fun AdminDashboardScreen(
                     color = Color(0xFF003366),
                     modifier = Modifier
                         .align(Alignment.End)
-                        .clickable { onConfirmPickup() }
+                        .clickable {
+                            showDialog = true
+                            onConfirmPickup()
+                        }
                 )
             }
         }
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Row: Order summary boxes
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            StatusBox("Orders received today -", "213")
-            StatusBox("In progress orders", "2044")
+            StatusBox(
+                title = "Orders received today -",
+                count = "213",
+                onClick = {
+                  onreceivedordersclick()
+                    println("Clicked on Orders received today")
+                }
+            )
+            StatusBox(
+                title = "In progress orders",
+                count = "2044",
+                onClick = {
+                  oninprogressordersclick()
+                    println("Clicked on In progress orders")
+                }
+            )
         }
+
 
         Spacer(modifier = Modifier.height(12.dp))
 
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            StatusBox("Ready for pickup", "544")
-            StatusBox("Pending feedback/\nissue requests", "")
+            StatusBox("Ready for pickup", "544", onClick = {onreadyforpickup()})
+            StatusBox("Pending feedback/\nissue requests", "",{onpendingrequests()})
         }
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -118,8 +152,7 @@ fun AdminDashboardScreen(
         Text(
             text = "Update Status",
             fontSize = 14.sp,
-            color = Color(0xFF003366),
-            modifier = Modifier.clickable { onUpdateStatusClick() }
+            color = Color(0xFF003366)
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -150,23 +183,26 @@ fun AdminDashboardScreen(
                 disabledContentColor = Color.White
             )
         ) {
-            Text("Update Batch Status")
+            Text("Update Batch Status",  modifier = Modifier.clickable { onUpdateStatusClick() })
         }
     }
 }
 
 @Composable
-fun StatusBox(title: String, count: String) {
+fun StatusBox(
+    title: String,
+    count: String,
+    onClick: () -> Unit = {} // default no-op click handler
+) {
     Card(
         modifier = Modifier
-//            .weight(1f)
-            .padding(4.dp),
+            .padding(4.dp)
+            .clickable { onClick() }, // 👈 Card is clickable
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(containerColor = Color(0xFFE0E0E0))
     ) {
         Column(
-            modifier = Modifier
-                .padding(12.dp),
+            modifier = Modifier.padding(12.dp),
             verticalArrangement = Arrangement.Center
         ) {
             Text(title, fontSize = 14.sp)
